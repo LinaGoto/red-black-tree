@@ -52,6 +52,17 @@ binarytree::binarytree(void) {
 binarytree::~binarytree(void) {
 }
 
+/* find the tree that has the value */
+tree_t *binarytree::findtree(int value) {
+  tree_t *cur = root;
+
+  /* finding value */
+  while ((cur != NULL) && (cur -> value != value)) {
+    if (value < cur -> value) cur = cur -> left; else cur = cur -> right;
+  }
+  return cur;
+}
+
 /* find the tree to add */
 tree_t *binarytree::findlast(int value) {
   tree_t *cur = root;
@@ -82,3 +93,55 @@ tree_t *binarytree::findmax(tree_t *target) {
   while ((target != NULL) && (target -> right != NULL)) target = target -> right;
   return target;
 }
+void binarytree::rotateR(tree_t *current) {
+  tree_t *child, *parent, *leaf;
+
+  if ((current == NULL) || (current -> left == NULL)) return;
+
+  printf("Rotate R for %d\n", current -> value);
+
+  parent = current -> parent;
+  child  = current -> left;
+  leaf   = child   -> right;
+
+  /* change root */
+  if (current == root) {
+    root = child;
+  } else {
+    if (current == parent -> left) {
+      parent -> left  = child;
+    } else {
+      parent -> right = child;
+    }
+  }
+
+  /* if last node exists */
+  if (leaf != NULL) leaf -> parent = current;
+
+  current -> parent = child;
+  current -> left   = leaf;
+  child   -> parent = parent;
+  child   -> right  = current;
+}
+
+void binarytree::rotateL(tree_t *current) {
+  tree_t *child, *parent, *leaf;
+
+  if ((current == NULL) || (current -> right == NULL)) return;
+
+  printf("Rotate L for %d\n", current -> value);
+
+  parent = current -> parent;
+  child  = current -> right;
+  leaf   = child   -> left;
+
+  /* change root */
+  if (current == root) {
+    root = child;
+  } else {
+    if (current == parent -> left) {
+      parent -> left  = child;
+    } else {
+      parent -> right = child;
+    }
+  }
