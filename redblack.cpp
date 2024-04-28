@@ -17,10 +17,11 @@ class binarytree {
 private:
   tree_t *root;
 
-  /* supplimental code */
+  /* depth and left right node */
   int getdepth(tree_t *tree, int depth);
   int leftright(int x, int y, int depth);
 
+  /* fidning and validation */
   tree_t *locatetree(int x, int y);
   tree_t *findtree(int value);
   tree_t *findlast(int value);
@@ -30,14 +31,16 @@ private:
   void check(tree_t *child);
   int getnumblacks(void);
 
+  /* rotation */
   void rotateR(tree_t *tree);
   void rotateL(tree_t *tree);
   
 public:
+  /* construction and destruction */
    binarytree(void);
   ~binarytree(void);
 
-  /* operation */
+  /* oaddng and deleting */
   void add (int value);
   void del (int value);
 
@@ -55,10 +58,12 @@ binarytree::binarytree(void) {
 binarytree::~binarytree(void) {
 }
 
+/* use find tree to searth */
 int binarytree::search(int value) {
   return (findtree(value) != NULL);
 }
 
+/* count black for validation */
 int binarytree::getnumblacks(void) {
   int num = 0;
   tree_t *tree = root;
@@ -70,6 +75,7 @@ int binarytree::getnumblacks(void) {
   return num;
 }
 
+/* check if the tree follows all properties */
 void binarytree::validate(tree_t *tree, int numblacks) {
   if (tree == NULL) return;
 
@@ -153,6 +159,7 @@ tree_t *binarytree::findmax(tree_t *target) {
   return target;
 }
 
+/* rotating to the rihgt */
 void binarytree::rotateR(tree_t *current) {
   tree_t *child, *parent, *leaf;
 
@@ -184,6 +191,7 @@ void binarytree::rotateR(tree_t *current) {
   child   -> right  = current;
 }
 
+/* rotating to the left */
 void binarytree::rotateL(tree_t *current) {
   tree_t *child, *parent, *leaf;
 
@@ -215,6 +223,7 @@ void binarytree::rotateL(tree_t *current) {
   child   -> left   = current;
 }
 
+/* check to change balance to mach properties after insertion*/
 void binarytree::check(tree_t *current) {
 
   if ((current == NULL) || (current -> color == black)) return;
@@ -268,6 +277,7 @@ void binarytree::check(tree_t *current) {
   }
 }
 
+/* adding value */
 void binarytree::add(int value) {
   tree_t *child, *data;
 
@@ -297,6 +307,7 @@ void binarytree::add(int value) {
   validate(root, 0);
 }
 
+/* not used but deletion */
 void binarytree::del(int value) {
   tree_t *cur = root;
   tree_t *parent, *maxtree;
@@ -389,6 +400,7 @@ void binarytree::del(int value) {
 static int getparent(int i) { return (i - 1) / 2; }
 static int getwidth (int i) { return (1 << i); }
 
+/* get depth */
 int binarytree::getdepth(tree_t *tree, int depth) {
   static int maxdepth;
 
@@ -403,6 +415,7 @@ int binarytree::getdepth(tree_t *tree, int depth) {
   return maxdepth;
 }
 
+/* find left and right */
 int binarytree::leftright(int x, int y, int relativedepth) {
   int target = getwidth(x) + y - 1;
   int amIleft = 0;
@@ -431,6 +444,7 @@ tree_t *binarytree::locatetree(int x, int y) {
   return tree;
 }
 
+/* printing tree */
 void binarytree::show(void) {
   int d, w, i, z;
   tree_t *tree;
