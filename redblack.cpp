@@ -460,17 +460,97 @@ void binarytree::show(void) {
 }
 
 int main(void) {
-  int i, value;
-  int array[] = {783, 386, 277, 415, 293, 835, 886, 992, 149, 921, 862, 527, 190, 559, 263, 426,  40, 926, 3, 55, 845, -1};
+  //int i, value;
+  //int array[] = {783, 386, 277, 415, 293, 835, 886, 992, 149, 921, 862, 527, 190, 559, 263, 426,  40, 926, 3, 55, 845, -1};
   //  int array[] = {5, 3, 6, 2, 4, 1, -1};
   
   /* encoding */
   binarytree binarytree;
+
+
+ /* input or file */
+  char option[10];
+  cout << "first input: input by console (i) or file (f)?" << endl;
+  cin.get (option, 10);
+  cin.get();
+
+  /* number entered by input */
+  if(option[0] == 'i' || option[0] == 'I'){
+    cout << "enter a series of numbers separated by a single space" << endl;
+    char series[1024];
+    cin.getline(series, 1024);
+    
+    /* read the input until space and send it to binarytree*/
+    
+    int value = 0;
+    
+    for (int i = 0; series[i] != '\0'; i++){
+      if (series[i] != ' '){
+	value = value*10 + (series[i] - '0');
+	if (series[i+1] == ' ' || series[i+1] == '\0'){
+	  binarytree.add(value);
+	  value = 0;
+	}
+      }
+    }
+  }
+
+  /* file */
+  if(option[0] == 'f' || option[0] == 'F'){
+    string myText;
+    
+    /* Read from the text file */
+    ifstream MyReadFile("random_number.txt");
+    
+    /* read from file and send to add */
+    while(getline(MyReadFile, myText, ' ')) {
+      binarytree.add(atoi(myText.c_str()));
+    }
+    
+    /*  Close the file */
+    MyReadFile.close();
+  }
+
+  while (1){
+    /* input delete or search */
+    char input[10];
+    cout << "input (i) or print (p)?" << endl;
+    cin.get (input,10);
+    cin.get();
+
+     /* number entered by input */
+    if(input[0] == 'i' || input[0] == 'I'){
+      input[0] = 'a';
+      cout << "enter a series of numbers separated by a single space" << endl;
+      char series[1024];
+      cin.getline(series, 1024);
+      
+      /* read the input until space and send it to binarytree*/
+      
+      int value = 0;
+      
+      for (int i = 0; series[i] != '\0'; i++){
+	if (series[i] != ' '){
+	  value = value*10 + (series[i] - '0');
+	  if (series[i+1] == ' ' || series[i+1] == '\0'){
+	    binarytree.add(value);
+	    value = 0;
+	  }
+	}
+      }
+    }
+
+    if(input[0] == 'p' || input[0] == 'P'){
+      input[0] = 'a';
+       binarytree.show();
+    } 
+
+  }
   
 #if 0
   i = 0;
   while (array[i] >= 0) binarytree.add(array[i++]);
-#endif
+
   for (i = 0; i < 30; i ++) {
     do {
       value = (rand() % 999) + 1;
@@ -481,6 +561,8 @@ int main(void) {
     binarytree.add(value);
   }
 
-
+  binarytree.show();
+  
   return 0;
+#endif
 }
